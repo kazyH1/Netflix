@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import AVFoundation
+
+import WebKit
 
 class MovieDetailViewController: UIViewController {
-    @IBOutlet weak var trailerVideoView: UIView!
+    @IBOutlet weak var videoWKWebView: WKWebView!
     @IBOutlet weak var detailView: UIView!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,8 +19,7 @@ class MovieDetailViewController: UIViewController {
     var viewModel: MovieDetailViewModel?
     
     private var categoryTabBarController = CategoryTabBarController()
-    private var player: AVPlayer?
-    private var playerLayer: AVPlayerLayer?
+    private var player: WKWebView?
     
     // MARK: - Initializers
     init() {
@@ -87,17 +87,11 @@ extension MovieDetailViewController: MovieDetailViewModelDelegate {
     }
     
     private func playVideo(with trailerKey: String) {
-        guard let url = URL(string: "https://www.youtube.com/watch?v=\(trailerKey)") else {
-            print("Invalid video URL")
-            return
-        }
+        guard let url = URL(string: "https://www.youtube.com/embed/\(trailerKey)") else {
+                   return
+               }
+        videoWKWebView.load(URLRequest(url: url))
         
-        let playerItem = AVPlayerItem(url: url)
-        player = AVPlayer(playerItem: playerItem)
-        playerLayer = AVPlayerLayer(player: player)
-        playerLayer?.frame = trailerVideoView.bounds
-        trailerVideoView.layer.addSublayer(playerLayer!)
-        player?.play()
     }
     
     private func handleFetchError() {

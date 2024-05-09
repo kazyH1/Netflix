@@ -182,14 +182,10 @@ extension HomeViewController: HomeTableViewCellDelegate, HomeHeaderViewDelegate 
         navigationController?.pushViewController(movieDetailVC, animated: true)
     }
     
-    func didSelectMovie(at indexPath: IndexPath) {
-        guard let navigationController = self.navigationController else { return }
-        if let cell = homeFeedTableView.cellForRow(at: IndexPath(row: 0, section: indexPath.section)) as? HomeTableViewCell,
-           let movie = cell.movie(at: indexPath.row) {
-            let movieDetailVC = MovieDetailViewController()
-            movieDetailVC.movieId = movie.id
-            navigationController.pushViewController(movieDetailVC, animated: true)
-        }
+    func didSelectMovie(at id: Int) {
+        let movieDetailVC = MovieDetailViewController()
+        movieDetailVC.movieId = id
+        navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }
 
